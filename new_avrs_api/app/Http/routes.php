@@ -16,4 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/testFeeCalculator','Controller@testFeeCalculator');
+Route::get('/viewTestRecords','Controller@viewTestRecords');
+Route::get('/exampleRenewRegistration','Controller@exampleRenewRegistration');
 //Route::post('/campaignPerformanceReport', 'Controller@campaignPerformanceReport');

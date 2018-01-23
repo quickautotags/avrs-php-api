@@ -7,6 +7,8 @@ use App\Classes\Src\AVRSAPI;
 use App\Classes\Src\AvrsApiSO;
 use App\Classes\Src\Logger;
 use App\Classes\Examples\FeeCalculator;
+use App\Classes\Examples\renewRegistration;
+use App\Classes\Examples\viewTestRecords;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -22,4 +24,17 @@ class Controller extends BaseController
  		$return = $example->run();
  		die(var_dump(json_encode($return)));
  	}   
+ 	public function exampleRenewRegistration(){
+ 		$return = '';
+ 		$example = new renewRegistration();
+ 		$return = $example->run();
+ 		die(var_dump(json_encode($return)));
+ 	}
+ 	public function viewTestRecords(){
+ 		$return = '';
+ 		$example = new viewTestRecords();
+ 		$return = $example->run();
+ 		die(var_dump(json_encode($return)));
+ 	}
+ 	
 }
