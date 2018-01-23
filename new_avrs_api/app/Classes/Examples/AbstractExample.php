@@ -55,7 +55,7 @@ abstract class AbstractExample {
         $this->api->send();
         $response = json_decode($this->api->getResult(), true);
         /**/
-        die(json_encode($response));
+        //die(json_encode($response));
         /**/
         while ($retries++ < static::RETRY_ATTEMPTS && $response['deals'][0]['error-code'] == 'CADMV/Q023') {
             error_log('DMV Retry Code Encountered');

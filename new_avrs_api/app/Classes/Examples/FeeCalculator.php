@@ -4,23 +4,6 @@ namespace App\Classes\Examples;
 class FeeCalculator extends AbstractExample {
 
     public function run() {
-        /*
-        $instance->method = 'POST';
-        $instance->url = '/api/v1/authentications/';
-        $instance->payload = [{
-            "mulid": "pillai.sreenath@gmail.com",
-            "password": "Packers!!12"
-        }];
-        */
-        $this->api->setURL('/api/v1/authentications');
-        $this->api->setMethod('POST');
-        $this->api->addPayload("mulid","pillai.sreenath@gmail.com");
-        $this->api->addPayload("password","Packers!!12");
-        $this->api->send();
-            $response = $this->api->getResult();
-            //die(var_dump($response));
-        $this->logApi();
-        $this->resetApi();
         // create a deal with the required fields and immediately request fees
         $this->api->setURL('/api/v1/deals/');
         $this->api->setMethod('POST');
@@ -40,6 +23,8 @@ class FeeCalculator extends AbstractExample {
         $this->api->addPayload('gateway-type', 'CALC-CA');
         $this->send();
         $this->logApi();
+        $response = $this->api->getResult();
+        die($response);
     }
 }
 
