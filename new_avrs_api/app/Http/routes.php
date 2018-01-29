@@ -17,5 +17,9 @@ Route::get('/', function () {
 
 Route::get('/testFeeCalculator','Controller@testFeeCalculator');
 Route::get('/viewTestRecords','Controller@viewTestRecords');
-Route::get('/exampleRenewRegistration','Controller@exampleRenewRegistration');
+Route::get('/exampleRenewRegistration','Controller@exampleRenewRegistrationFull');
+Route::get('/exampleRenewRegistrationFirst','Controller@exampleRenewRegistrationFirst');
+Route::get('/exampleRenewRegistrationRest','Controller@exampleRenewRegistrationRest');
 //Route::post('/campaignPerformanceReport', 'Controller@campaignPerformanceReport');
+
+//I will only be doing “renewals/replacement credentials” – and my fee will be $20 - Uni

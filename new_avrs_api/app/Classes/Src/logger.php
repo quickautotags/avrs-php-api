@@ -23,6 +23,18 @@ class Logger {
 		fclose($fh);
 	}
 
+	static public function writeCustom($tag, $json, $prefix=null,$suffix='json',$dir=null){
+		if (!isset($prefix)) {
+			$prefix = date(self::$prefixFormat);
+		}
+        if (!isset($dir)) {
+            $dir = __DIR__ . '/../log/';
+        }
+        $fh = fopen($dir . $prefix . '_' . $tag . '.' . $suffix, 'w');
+		fwrite($fh, $json);
+		fclose($fh);
+	}
+
 	static public function writeResponse(AVRSAPI $api, $prefix = null, $suffix = 'json', $dir = null) {
 		if (!isset($prefix)) {
 			$prefix = date(self::$prefixFormat);

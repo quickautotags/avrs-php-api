@@ -55,9 +55,10 @@ abstract class AbstractExample {
         $this->api->send();
         $response = json_decode($this->api->getResult(), true);
         /**/
-        die(json_encode($response));
+        //die(json_encode($response));
+        Logger::writeCustom('resp',json_encode($response));
         /**/
-        while ($retries++ < static::RETRY_ATTEMPTS && $response['deals'][0]['error-code'] == 'CADMV/Q023') {
+        while ($retries++ < static::RETRY_ATTEMPTS && isset($response['deals']) && $response['deals'][0]['error-code'] == 'CADMV/Q023') {
             error_log('DMV Retry Code Encountered');
             sleep(static::RETRY_BASE * pow(2, $retries));
             $this->api->send();

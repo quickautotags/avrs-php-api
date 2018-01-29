@@ -22,19 +22,31 @@ class Controller extends BaseController
  		$return = '';
  		$example = new FeeCalculator();
  		$return = $example->run();
- 		die(var_dump(json_encode($return)));
+ 		die(json_encode($return));
  	}   
- 	public function exampleRenewRegistration(){
+ 	public function exampleRenewRegistrationFull(){
  		$return = '';
  		$example = new renewRegistration();
  		$return = $example->run();
- 		die(var_dump(json_encode($return)));
+ 		die(json_encode($return));
+ 	}
+ 	public function exampleRenewRegistrationFirst(){
+ 		$return = '';
+ 		$example = new renewRegistration();
+ 		$return = $example->runFirstStep();
+ 		die(json_encode($return));
+ 	}
+ 	public function exampleRenewRegistrationRest(){
+ 		$return = '';
+ 		$example = new renewRegistration();
+ 		$return = $example->runTransactionStep($_REQUEST['deal-id'],$_REQUEST['deal-status']);
+ 		die(json_encode($return));
  	}
  	public function viewTestRecords(){
  		$return = '';
  		$example = new viewTestRecords();
  		$return = $example->run();
- 		die(var_dump(json_encode($return)));
+ 		die(json_encode($return));
  	}
  	
 }
