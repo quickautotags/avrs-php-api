@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 
 class Controller extends BaseController
 {
+	//BEGIN CONTROLLER
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
  	public function testFeeCalculator(){
  		$return = '';
@@ -48,5 +49,26 @@ class Controller extends BaseController
  		$return = $example->run();
  		die(json_encode($return));
  	}
- 	
+ 	public function sendEmailReceipt($to,$type){
+ 		Mail::send('emails.receipt',['type'=>$type],function($message){
+ 			$message->from('uni@quickautotags.com', 'UNI MATA');
+	 		$message->to($to)->cc('pillai.sreenath@gmail.com');
+	 		$message->attach(public_path()."/testImages/1.png");
+	 		/*
+			$message->sender($address, $name = null);
+			$message->cc($address, $name = null);
+			$message->bcc($address, $name = null);
+			$message->replyTo($address, $name = null);
+			$message->subject($subject);
+			$message->priority($level);
+	 		*/
+	 		//TODO: generate PDF (either our own since we are upcharging DMV, or official DMV/AVRS PDF)
+	 		//$message->attach($pathToFile);
+	 		/*
+			When attaching files to a message, you may also specify the display name and / or MIME type by passing an array as the second argument to the attach method:
+			$message->attach($pathToFile, ['as' => $display, 'mime' => $mime]);
+	 		*/
+ 		});	
+ 	}
+//END CONTROLLER
 }

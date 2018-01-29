@@ -75,7 +75,13 @@ class renewRegistration extends AbstractExample {
            'vin'       => '369'   ,
            'plate'     => '2BPA369' ,
            'insurance' => 'Y' , // for testing environment only, certify that the vehicle is insured
-       ]],'transaction-type'=>'6','gateway-type'=>'CA' ]]);
+       ]], 'mail-address'=>[[
+            'city'=>'Santa Cruz',
+            'state'=>'CA',
+            'street0'=>'1156 High St.',
+            'street1'=>'Apt #1',
+            'zip'=>'95064'
+       ]], 'transaction-type'=>'6','gateway-type'=>'CA' ]]);
         $this->send();
         $response = json_decode($this->api->getResult(), true);
         $this->logApi();
@@ -95,6 +101,20 @@ class renewRegistration extends AbstractExample {
         $this->api->addPayload('deal-status', $desired_status);
         $this->send();
         $response = json_decode($this->api->getResult(), true);
+        /*IF DOING FR TO CHECK FEES, ASK AVRS WHERE TO GET FEES FROM
+            POTENTIAL CANDIDATES: (same object level as 'vehicles' within deals, aka deals.xxx)
+            fee-dmv-amount
+            fees.total
+            CODE EXAMPLE - ensure its $9 like all renewals/replacement credentials should be, so UNI makes money
+            //use intVal if needed, otherwise its a double but should still == 9
+            $response['deals'][0]['fees']['total'] == 9
+            $response['deals'][0]['fee-dmv-amount'] == 9
+            IF NOT 9, LOG what it is and let user know there was a DMV error if its egregious otherwise charge user double of whatever amount it is instead of 20? (my suggestion) To do this, you'd return a "custom-amount"-like field in JSON and UI would check for that and update hidden input for amount.
+        */
+        /*IF DOING C TO POST FEES AND COMPLETE THE TRANSACTION, ASK AVRS HOW TO GENERATE OFFICIAL RECEIPTS
+            OR POTENTIALLY GENERATE OUR OWN, SINCE WE ARE APPLYING A MARKUP
+            THEN SEND EMAIL (copy Controller.sendEmailReceipt($to,$type) logic: $to=their email, $type=Registration Renewal or Replacement Credentials...or both) WITH THE RECEIPT/PDF ATTACHED
+        */
         $this->logApi();
         return $response;
     }
