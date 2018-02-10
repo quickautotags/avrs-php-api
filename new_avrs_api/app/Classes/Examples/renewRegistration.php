@@ -72,16 +72,20 @@ class renewRegistration extends AbstractExample {
         $this->api->setMethod('POST');
         //Required fields: deals, gateway-type, transaction-type
         $this->api->addPayload('deals', [['vehicles'=>[[
-           'vin'       => '369'   ,
-           'plate'     => '2BPA369' ,
+           'vin'       => '069'   ,
+           'plate'     => '4ZPR864' ,
            'insurance' => 'Y' , // for testing environment only, certify that the vehicle is insured
-       ]], 'mail-address'=>[[
+        ]], 'transaction-type'=>'6','gateway-type'=>'CA' ]]);
+        /*
+        optional change of address
+        'mail-address'=>[[
             'city'=>'Santa Cruz',
             'state'=>'CA',
             'street0'=>'1156 High St.',
             'street1'=>'Apt #1',
             'zip'=>'95064'
-       ]], 'transaction-type'=>'6','gateway-type'=>'CA' ]]);
+        ]], 
+        */
         $this->send();
         $response = json_decode($this->api->getResult(), true);
         $this->logApi();
@@ -107,8 +111,9 @@ class renewRegistration extends AbstractExample {
             fees.total
             CODE EXAMPLE - ensure its $9 like all renewals/replacement credentials should be, so UNI makes money
             //use intVal if needed, otherwise its a double but should still == 9
-            $response['deals'][0]['fees']['total'] == 9
-            $response['deals'][0]['fee-dmv-amount'] == 9
+            $response['deal-transactions'][0]['fees']['adjusted'];//should be same as ['fees']['total']
+            loop thru "by-type", confirm that PASSTHROUGH+AVRS=9.5, either way just charge PASSTHROUGH+AVRS+STATE+10.5 (and check+log if its 20 more than fees adjusted)
+            $response['deal-transactions'][0]['fee-dmv-amount'] == 9
             IF NOT 9, LOG what it is and let user know there was a DMV error if its egregious otherwise charge user double of whatever amount it is instead of 20? (my suggestion) To do this, you'd return a "custom-amount"-like field in JSON and UI would check for that and update hidden input for amount.
         */
         /*IF DOING C TO POST FEES AND COMPLETE THE TRANSACTION, ASK AVRS HOW TO GENERATE OFFICIAL RECEIPTS
