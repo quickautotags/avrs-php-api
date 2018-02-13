@@ -74,9 +74,9 @@ class Controller extends BaseController
  	public function fetchClientTokenQAT(){
 		/*production*/
 		Braintree_Configuration::environment('production');
-		Braintree_Configuration::merchantId('wrhttqkn99tv6y38');
-		Braintree_Configuration::publicKey('kp2g82kxp8fr5hf5');
-		Braintree_Configuration::privateKey('f31239f7a449d5156430af73e196da11');
+		Braintree_Configuration::merchantId('8k76bhrq64kjwrbk');
+		Braintree_Configuration::publicKey('b9hzschq7gcd8jg7');
+		Braintree_Configuration::privateKey('87e386879e816502fe4d3b74c35111e2');
 		/*end production*/
 		$toReturn = array();
 		$token = ($clientToken = Braintree_ClientToken::generate(array(
@@ -88,9 +88,9 @@ class Controller extends BaseController
 	
 	public function payQAT(){
 		Braintree_Configuration::environment('production');
-		Braintree_Configuration::merchantId('wrhttqkn99tv6y38');
-		Braintree_Configuration::publicKey('kp2g82kxp8fr5hf5');
-		Braintree_Configuration::privateKey('f31239f7a449d5156430af73e196da11');
+		Braintree_Configuration::merchantId('8k76bhrq64kjwrbk');
+		Braintree_Configuration::publicKey('b9hzschq7gcd8jg7');
+		Braintree_Configuration::privateKey('87e386879e816502fe4d3b74c35111e2');
 		$result = Braintree_Transaction::sale([
 		  'amount' => $_POST["amount"],
 		  'paymentMethodNonce' => $_POST["payment_method_nonce"],
