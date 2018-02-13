@@ -22,4 +22,7 @@ Route::get('/exampleRenewRegistrationFirst','Controller@exampleRenewRegistration
 Route::get('/exampleRenewRegistrationRest','Controller@exampleRenewRegistrationRest');
 //Route::post('/campaignPerformanceReport', 'Controller@campaignPerformanceReport');
 
+Route::get('/getTokenQAT', array('uses' => 'Controller@fetchClientTokenQAT'));
+Route::post('/payQAT', array('uses'=>'Controller@payQAT'));
+
 //I will only be doing “renewals/replacement credentials” – and my fee will be $20 - Uni

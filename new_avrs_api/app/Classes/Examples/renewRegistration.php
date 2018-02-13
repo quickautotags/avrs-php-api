@@ -65,16 +65,16 @@ class renewRegistration extends AbstractExample {
             //END THIRD STEP
         }
     }
-    public function runFirstStep(){
+    public function runFirstStep($vin,$plate){
         $bitmask = (TestRecords::BIT_AUTO | TestRecords::BIT_RENEWAL_DUE);
         $reservation = $this->getTestRecord($bitmask);
         $this->api->setURL('/api/v1.5/deals/');
         $this->api->setMethod('POST');
         //Required fields: deals, gateway-type, transaction-type
         $this->api->addPayload('deals', [['vehicles'=>[[
-           'vin'       => '069'   ,
-           'plate'     => '4ZPR864' ,
-           'insurance' => 'Y' , // for testing environment only, certify that the vehicle is insured
+           'vin'       => $vin   ,
+           'plate'     => $plate ,
+           'insurance' => 'Y'    , // for testing environment only, certify that the vehicle is insured
         ]], 'transaction-type'=>'6','gateway-type'=>'CA' ]]);
         /*
         optional change of address
@@ -89,7 +89,7 @@ class renewRegistration extends AbstractExample {
         $this->send();
         $response = json_decode($this->api->getResult(), true);
         $this->logApi();
-        return $response;
+        return array("dealid"=>$response['deals'][0]['id'],"wholeResponse"=>$response);
     }
     public function runTransactionStep($deal_id, $desired_status){
         $this->resetApi();
@@ -104,7 +104,14 @@ class renewRegistration extends AbstractExample {
         */
         $this->api->addPayload('deal-status', $desired_status);
         $this->send();
-        $response = json_decode($this->api->getResult(), true);
+        $json = $this->api->getResult();
+        $response = json_decode($json, true);
+        $this->logApi();
+        $dt = $response['deal-transactions'][0];
+        $total = $dt['fees']['total'];
+        $deal_id = $dt['deal-id'];
+        $deal_status = $dt['deal-status'];
+        $charge_user = $total+10.5;
         /*IF DOING FR TO CHECK FEES, ASK AVRS WHERE TO GET FEES FROM
             POTENTIAL CANDIDATES: (same object level as 'vehicles' within deals, aka deals.xxx)
             fee-dmv-amount
@@ -116,11 +123,26 @@ class renewRegistration extends AbstractExample {
             $response['deal-transactions'][0]['fee-dmv-amount'] == 9
             IF NOT 9, LOG what it is and let user know there was a DMV error if its egregious otherwise charge user double of whatever amount it is instead of 20? (my suggestion) To do this, you'd return a "custom-amount"-like field in JSON and UI would check for that and update hidden input for amount.
         */
+        if($desired_status=='FR'){
+            $canUseAdjusted = $dt['fees']['adjusted'] == $dt['fees']['total'];
+            $stateFees=0;$processingFees=0;
+            for($i=0; $i<count($dt['fees']['by-type']);$i++){
+                $dis = $dt['fees']['by-type'][$i];
+                if($dis['type']=='STATE'){$stateFees+=$dis['total'];}
+                else{$processingFees+=$dis['total'];}
+            }     
+            return array("total"=>$total,"chargeUser"=>$charge_user,"deal_id"=>$deal_id,"deal_status"=>$deal_status,"stateFees"=>$stateFees,"processingFees"=>$processingFees,"origFeeObj"=>$dt['fees'],"transaction"=>$dt);   
+        }
+
         /*IF DOING C TO POST FEES AND COMPLETE THE TRANSACTION, ASK AVRS HOW TO GENERATE OFFICIAL RECEIPTS
             OR POTENTIALLY GENERATE OUR OWN, SINCE WE ARE APPLYING A MARKUP
             THEN SEND EMAIL (copy Controller.sendEmailReceipt($to,$type) logic: $to=their email, $type=Registration Renewal or Replacement Credentials...or both) WITH THE RECEIPT/PDF ATTACHED
         */
-        $this->logApi();
+        if($desired_status=='C'){
+            $paidProperly = ($dt['fees']['adjusted']==0 && $dt['fees']['total']==$dt['fees']['paid']);
+            return array("deal_id"=>$deal_id,"deal_status"=>$deal_status,"paidProperly"=>$paidProperly,"transactionFees"=>$dt['fees'],"transaction"=>$dt);
+        }
+        
         return $response;
     }
 }

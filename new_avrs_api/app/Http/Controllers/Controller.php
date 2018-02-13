@@ -34,13 +34,13 @@ class Controller extends BaseController
  	public function exampleRenewRegistrationFirst(){
  		$return = '';
  		$example = new renewRegistration();
- 		$return = $example->runFirstStep();
+ 		$return = $example->runFirstStep($_REQUEST['vin'],$_REQUEST['plate']);
  		die(json_encode($return));
  	}
  	public function exampleRenewRegistrationRest(){
  		$return = '';
  		$example = new renewRegistration();
- 		$return = $example->runTransactionStep($_REQUEST['deal-id'],$_REQUEST['deal-status']);
+ 		$return = $example->runTransactionStep($_REQUEST['dealid'],$_REQUEST['dealstatus']);
  		die(json_encode($return));
  	}
  	public function viewTestRecords(){
@@ -70,5 +70,35 @@ class Controller extends BaseController
 	 		*/
  		});	
  	}
+
+ 	public function fetchClientTokenQAT(){
+		/*production*/
+		Braintree_Configuration::environment('production');
+		Braintree_Configuration::merchantId('wrhttqkn99tv6y38');
+		Braintree_Configuration::publicKey('kp2g82kxp8fr5hf5');
+		Braintree_Configuration::privateKey('f31239f7a449d5156430af73e196da11');
+		/*end production*/
+		$toReturn = array();
+		$token = ($clientToken = Braintree_ClientToken::generate(array(
+			//"customerId" => $aCustomerId
+		)));
+		$toReturn["result"] = $token;
+		return json_encode($toReturn);
+	}
+	
+	public function payQAT(){
+		Braintree_Configuration::environment('production');
+		Braintree_Configuration::merchantId('wrhttqkn99tv6y38');
+		Braintree_Configuration::publicKey('kp2g82kxp8fr5hf5');
+		Braintree_Configuration::privateKey('f31239f7a449d5156430af73e196da11');
+		$result = Braintree_Transaction::sale([
+		  'amount' => $_POST["amount"],
+		  'paymentMethodNonce' => $_POST["payment_method_nonce"],
+		  'options' => [
+			'submitForSettlement' => True
+		  ]
+		]);
+		return json_encode($result);
+	}
 //END CONTROLLER
 }
