@@ -41,8 +41,8 @@
 		?>
 			<script>
 			var data = new Object();
-			alert(<?=$_REQUEST['amount']?>);
-			data.amount = 1;//<?=$_REQUEST['amount']?>;
+			alert(<?=$_REQUEST['amount']?>);//1 when testing, chargeUser otherwise
+			data.amount = <?=$_REQUEST['amount']?>;
 			data.payment_method_nonce = "<?=$_REQUEST['payment_method_nonce']?>";
 			console.log(data);
 			$.ajax("../index.php/"+donateUrl,{
@@ -105,7 +105,8 @@
 					//make sure all Fees look good, status=FR, has a deal-id and no errors
 					//show BT form with amount
 					alert(data.chargeUser);
-					$("input[name='amount']").val(data.chargeUser);//initBT();if have to init after amount
+					$("input[name='amount']").val(1);//use data.chargeUser after testing
+					//initBT();if have to init after amount
 					$(".step1").hide();$(".step2").show();
 				}
 			});
