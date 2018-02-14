@@ -67,7 +67,7 @@
 			<p class="a">VIN (last 3 digits):<br/><input type="text" id="vin" /></p>
 			<input type="button" value="Submit" onclick="step1()" style="width:200px;height:40px;border-radius:8px;background:#f69222;">
 		</div>
-		<form class="step2" id="checkout" method="post" action="d.php" style="display:none;">
+		<form class="step2" id="checkout" method="post" action="example.php" style="display:none;">
 		  <div id="payment-form"></div>
 		  <input type="hidden" name="amount" />
 		  <input type="hidden" name="da_org" />
