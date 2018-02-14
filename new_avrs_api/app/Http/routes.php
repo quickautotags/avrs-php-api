@@ -18,8 +18,8 @@ Route::get('/', function () {
 Route::get('/testFeeCalculator','Controller@testFeeCalculator');
 Route::get('/viewTestRecords','Controller@viewTestRecords');
 Route::get('/exampleRenewRegistration','Controller@exampleRenewRegistrationFull');
-Route::any('/exampleRenewRegistrationFirst','Controller@exampleRenewRegistrationFirst');
-Route::any('/exampleRenewRegistrationRest','Controller@exampleRenewRegistrationRest');
+Route::get('/exampleRenewRegistrationFirst','Controller@exampleRenewRegistrationFirst');
+Route::get('/exampleRenewRegistrationRest','Controller@exampleRenewRegistrationRest');
 //Route::post('/campaignPerformanceReport', 'Controller@campaignPerformanceReport');
 
 Route::get('/getTokenQAT', array('uses' => 'Controller@fetchClientTokenQAT'));

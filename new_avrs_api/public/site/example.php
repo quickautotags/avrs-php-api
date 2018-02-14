@@ -82,10 +82,9 @@
 		function step1(){
 			var data = new Object();
 			data.vin = $("#vin").val(); data.plate=$("#plate").val();
-			$.ajax("../index.php/exampleRenewRegistrationFirst",{
-				method:"POST",
+			$.ajax("../index.php/exampleRenewRegistrationFirst?vin="+data.vin+"&plate="+data.plate,{
+				method:"GET",
 				dataType:"json",
-				data:data,
 				success:function(data){
 					//make sure Transaction is ready, status=R, has a deal-id and no errors
 					alert(data.dealid);
@@ -96,10 +95,9 @@
 		function step1point5(dealid){
 			var data = new Object();//$_REQUEST['dealid'],$_REQUEST['dealstatus']
 			data.dealid = dealid; data.dealstatus="FR";
-			$.ajax("../index.php/exampleRenewRegistrationRest",{
-				method:"POST",
+			$.ajax("../index.php/exampleRenewRegistrationRest?dealid="+dealid+"&dealstatus=FR",{
+				method:"GET",
 				dataType:"json",
-				data:data,
 				success:function(data){
 					console.log(data);
 					//make sure all Fees look good, status=FR, has a deal-id and no errors
