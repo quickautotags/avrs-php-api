@@ -14,6 +14,9 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
+use \Braintree_Configuration;
+use \Braintree_ClientToken;
+use \Braintree_Transaction;
 
 class Controller extends BaseController
 {
@@ -73,10 +76,10 @@ class Controller extends BaseController
 
  	public function fetchClientTokenQAT(){
 		/*production*/
-		\Braintree_Configuration::environment('production');
-		\Braintree_Configuration::merchantId('8k76bhrq64kjwrbk');
-		\Braintree_Configuration::publicKey('b9hzschq7gcd8jg7');
-		\Braintree_Configuration::privateKey('87e386879e816502fe4d3b74c35111e2');
+		Braintree_Configuration::environment('production');
+		Braintree_Configuration::merchantId('8k76bhrq64kjwrbk');
+		Braintree_Configuration::publicKey('b9hzschq7gcd8jg7');
+		Braintree_Configuration::privateKey('87e386879e816502fe4d3b74c35111e2');
 		/*end production*/
 		$toReturn = array();
 		$token = ($clientToken = Braintree_ClientToken::generate(array(
@@ -87,10 +90,10 @@ class Controller extends BaseController
 	}
 	
 	public function payQAT(){
-		\Braintree_Configuration::environment('production');
-		\Braintree_Configuration::merchantId('8k76bhrq64kjwrbk');
-		\Braintree_Configuration::publicKey('b9hzschq7gcd8jg7');
-		\Braintree_Configuration::privateKey('87e386879e816502fe4d3b74c35111e2');
+		Braintree_Configuration::environment('production');
+		Braintree_Configuration::merchantId('8k76bhrq64kjwrbk');
+		Braintree_Configuration::publicKey('b9hzschq7gcd8jg7');
+		Braintree_Configuration::privateKey('87e386879e816502fe4d3b74c35111e2');
 		$result = Braintree_Transaction::sale([
 		  'amount' => $_POST["amount"],
 		  'paymentMethodNonce' => $_POST["payment_method_nonce"],
