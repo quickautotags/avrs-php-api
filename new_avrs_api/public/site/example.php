@@ -41,7 +41,8 @@
 		?>
 			<script>
 			var data = new Object();
-			data.amount = <?=$_REQUEST['amount']?>;
+			alert(<?=$_REQUEST['amount']?>);
+			data.amount = 1;//<?=$_REQUEST['amount']?>;
 			data.payment_method_nonce = "<?=$_REQUEST['payment_method_nonce']?>";
 			console.log(data);
 			$.ajax("../index.php/"+donateUrl,{
