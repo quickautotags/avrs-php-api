@@ -9,7 +9,7 @@
 		var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
 		return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 	}
-	var org = "QAT";
+	var org = "QAT"; var _dealid;
 	switch(org){
 		case "QAT":
 			var donateUrl = "payQAT";
@@ -19,8 +19,8 @@
 	}
 	function lastStep(){
 		var data = new Object();//$_REQUEST['dealid'],$_REQUEST['dealstatus']
-		data.dealid = dealid; data.dealstatus="C";
-		$.ajax("../index.php/exampleRenewRegistrationRest?dealid="+dealid+"&dealstatus=C",{
+		data.dealid = _dealid; data.dealstatus="C";
+		$.ajax("../index.php/exampleRenewRegistrationRest?dealid="+_dealid+"&dealstatus=C",{
 			method:"GET",
 			dataType:"json",
 			data:data,
@@ -43,6 +43,8 @@
 			var data = new Object();
 			alert(<?=$_REQUEST['amount']?>);//1 when testing, chargeUser otherwise
 			data.amount = <?=$_REQUEST['amount']?>;
+			alert(<?=$_REQUEST['avrs_dealid']?>);//1 when testing, chargeUser otherwise
+			_dealid = <?=$_REQUEST['avrs_dealid']?>;
 			data.payment_method_nonce = "<?=$_REQUEST['payment_method_nonce']?>";
 			console.log(data);
 			$.ajax("../index.php/"+donateUrl,{
@@ -71,6 +73,7 @@
 		  <div id="payment-form"></div>
 		  <input type="hidden" name="amount" />
 		  <input type="hidden" name="da_org" />
+		  <input type="hidden" name="avrs_dealid" />
 		  <script>
 			$("input[name='da_org']").val(getParameterByName("org"));
 		  </script>
@@ -95,6 +98,7 @@
 		function step1point5(dealid){
 			var data = new Object();//$_REQUEST['dealid'],$_REQUEST['dealstatus']
 			data.dealid = dealid; data.dealstatus="FR";
+			$("input[name='avrs_dealid']").val(dealid);
 			$.ajax("../index.php/exampleRenewRegistrationRest?dealid="+dealid+"&dealstatus=FR",{
 				method:"GET",
 				dataType:"json",
