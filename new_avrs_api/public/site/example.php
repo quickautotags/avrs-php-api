@@ -20,8 +20,8 @@
 	function lastStep(){
 		var data = new Object();//$_REQUEST['dealid'],$_REQUEST['dealstatus']
 		data.dealid = dealid; data.dealstatus="C";
-		$.ajax("../index.php/exampleRenewRegistrationRest",{
-			method:"POST",
+		$.ajax("../index.php/exampleRenewRegistrationRest?dealid="+dealid+"&dealstatus=C",{
+			method:"GET",
 			dataType:"json",
 			data:data,
 			success:function(data){
