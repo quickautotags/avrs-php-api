@@ -111,7 +111,8 @@ class renewRegistration extends AbstractExample {
         $total = $dt['fees']['total'];
         $deal_id = $dt['deal-id'];
         $deal_status = $dt['deal-status'];
-        $charge_user = $total+19.5;
+        $bt_fee_addon = ($total+19.5)*.03;//+0.3 (30 cents base), just add that at the end
+        $charge_user = $total+19.5+$bt_fee_addon+0.3;
         /*IF DOING FR TO CHECK FEES, ASK AVRS WHERE TO GET FEES FROM
             POTENTIAL CANDIDATES: (same object level as 'vehicles' within deals, aka deals.xxx)
             fee-dmv-amount
