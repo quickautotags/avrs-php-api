@@ -23,7 +23,6 @@
 		$.ajax("../index.php/exampleRenewRegistrationRest?dealid="+_dealid+"&dealstatus=C",{
 			method:"GET",
 			dataType:"json",
-			data:data,
 			success:function(data){
 				console.log(data);
 				//make sure all Fees look good, status=FR, has a deal-id and no errors
@@ -107,7 +106,7 @@
 					//make sure all Fees look good, status=FR, has a deal-id and no errors
 					//show BT form with amount
 					alert(data.chargeUser);
-					$("input[name='amount']").val(1);//use data.chargeUser after testing
+					$("input[name='amount']").val(data.chargeUser);//use 1 when testing
 					//initBT();if have to init after amount
 					$(".step1").hide();$(".step2").show();
 				}
