@@ -103,9 +103,15 @@
 				dataType:"json",
 				success:function(data){
 					console.log(data);
+					alert(data.deal_id); alert(data.chargeUser); alert(data.deal_status);
 					//make sure all Fees look good, status=FR, has a deal-id and no errors
+					var badCodes = ["E"];
+					for(var jj=0;jj<badCodes.length;jj++){
+						if(data.deal_status==badCodes[jj]){
+							//DO NOT SHOW STEP 2, return, and alert user of whats going on if code is 'bad'
+						}
+					}
 					//show BT form with amount
-					alert(data.chargeUser);
 					$("input[name='amount']").val(data.chargeUser);//use 1 when testing
 					//initBT();if have to init after amount
 					$(".step1").hide();$(".step2").show();
