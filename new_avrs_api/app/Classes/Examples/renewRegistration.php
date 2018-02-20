@@ -73,8 +73,8 @@ class renewRegistration extends AbstractExample {
         //Required fields: deals, gateway-type, transaction-type
         $this->api->addPayload('deals', [['vehicles'=>[[
            'vin'       => $vin   ,
-           'plate'     => $plate /*,
-           'insurance' => 'Y'    ,*/ // try different value/not passing in w/ brother-in-law testReg
+           'plate'     => $plate ,
+           'insurance' => 'Y'    , // for testing environment only, certify that the vehicle is insured
         ]], 'transaction-type'=>'6','gateway-type'=>'CA' ]]);
         /*
         optional change of address
