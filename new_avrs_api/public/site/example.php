@@ -74,6 +74,7 @@
 		  	<tr><td>DMV Fees:</td><td id="json_total"></td></tr>
 		  	<tr><td>Service Fee:</td><td id="json_unifees"></td></tr>
 		  	<tr><td>Total:</td><td id="json_chargeUser"></td></tr>
+		  	<tr><td colspan=2><b>Enter Payment Info</b></td></tr>
 		  </table><br/>
 		  <div id="payment-form"></div>
 		  <input type="hidden" name="amount" />
