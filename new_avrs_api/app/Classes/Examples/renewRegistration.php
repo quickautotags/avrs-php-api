@@ -113,6 +113,7 @@ class renewRegistration extends AbstractExample {
         $deal_status = $dt['deal-status'];
         $bt_fee_addon = ($total+19.5)*.03;//+0.3 (30 cents base), just add that at the end
         $charge_user = $total+19.5+$bt_fee_addon+0.3;
+        $fees = $bt_fee_addon+0.3+19.5;
         /*IF DOING FR TO CHECK FEES, ASK AVRS WHERE TO GET FEES FROM
             POTENTIAL CANDIDATES: (same object level as 'vehicles' within deals, aka deals.xxx)
             fee-dmv-amount
@@ -132,7 +133,7 @@ class renewRegistration extends AbstractExample {
                 if($dis['type']=='STATE'){$stateFees+=$dis['total'];}
                 else{$processingFees+=$dis['total'];}
             }     
-            return array("total"=>$total,"chargeUser"=>$charge_user,"deal_id"=>$deal_id,"deal_status"=>$deal_status,"stateFees"=>$stateFees,"processingFees"=>$processingFees,"origFeeObj"=>$dt['fees'],"transaction"=>$dt);   
+            return array("total"=>$total,"unifees"=>$fees,"chargeUser"=>$charge_user,"deal_id"=>$deal_id,"deal_status"=>$deal_status,"stateFees"=>$stateFees,"processingFees"=>$processingFees,"origFeeObj"=>$dt['fees'],"transaction"=>$dt);   
         }
 
         /*IF DOING C TO POST FEES AND COMPLETE THE TRANSACTION, ASK AVRS HOW TO GENERATE OFFICIAL RECEIPTS

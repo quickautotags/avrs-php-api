@@ -42,7 +42,7 @@
 			var data = new Object();
 			alert(<?=$_REQUEST['amount']?>);//1 when testing, chargeUser otherwise
 			data.amount = <?=$_REQUEST['amount']?>;
-			alert(<?=$_REQUEST['avrs_dealid']?>);//1 when testing, chargeUser otherwise
+			alert(<?=$_REQUEST['avrs_dealid']?>);
 			_dealid = <?=$_REQUEST['avrs_dealid']?>;
 			data.payment_method_nonce = "<?=$_REQUEST['payment_method_nonce']?>";
 			console.log(data);
@@ -69,6 +69,12 @@
 			<input type="button" value="Submit" onclick="step1()" style="width:200px;height:40px;border-radius:8px;background:#f69222;">
 		</div>
 		<form class="step2" id="checkout" method="post" action="example.php" style="display:none;">
+		  <table>
+		  	<tr><td colspan=2><b>Summary of Fees</b></td></tr>
+		  	<tr><td>DMV Fees:</td><td id="json_total"></td></tr>
+		  	<tr><td>Service Fee:</td><td id="json_unifees"></td></tr>
+		  	<tr><td>Total:</td><td id="json_chargeUser"></td></tr>
+		  </table><br/>
 		  <div id="payment-form"></div>
 		  <input type="hidden" name="amount" />
 		  <input type="hidden" name="da_org" />
@@ -115,6 +121,8 @@
 					//show BT form with amount
 					$("input[name='amount']").val(data.chargeUser);//use 1 when testing
 					//initBT();if have to init after amount
+					$("#json_total").html(data.total); $("#json_unifees").html(data.unifees);
+					$("#json_chargeUser").html(data.chargeUser);
 					$(".step1").hide();$(".step2").show();
 				}
 			});
