@@ -109,6 +109,7 @@
 					for(var jj=0;jj<badCodes.length;jj++){
 						if(data.deal_status==badCodes[jj]){
 							//DO NOT SHOW STEP 2, return, and alert user of whats going on if code is 'bad'
+							alert("You may have a suspended registration or invalid insurance. You will have to go to the DMV to resolve this."); return;
 						}
 					}
 					//show BT form with amount
