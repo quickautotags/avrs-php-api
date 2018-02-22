@@ -18,6 +18,8 @@ Route::any('/', function () {
 Route::get('/testFeeCalculator','Controller@testFeeCalculator');
 Route::get('/viewTestRecords','Controller@viewTestRecords');
 Route::get('/exampleRenewRegistration','Controller@exampleRenewRegistrationFull');
+//MAIN API CALLS
+Route::get('/checkError','Controller@checkError');
 Route::get('/exampleRenewRegistrationFirst','Controller@exampleRenewRegistrationFirst');
 Route::get('/exampleRenewRegistrationRest','Controller@exampleRenewRegistrationRest');
 //Route::post('/campaignPerformanceReport', 'Controller@campaignPerformanceReport');

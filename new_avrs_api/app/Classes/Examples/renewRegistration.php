@@ -65,6 +65,16 @@ class renewRegistration extends AbstractExample {
             //END THIRD STEP
         }
     }
+    public function checkError($deal_id){
+        $bitmask = (TestRecords::BIT_AUTO | TestRecords::BIT_RENEWAL_DUE);
+        $reservation = $this->getTestRecord($bitmask);
+        $this->api->setURL('/api/v1.5/deals?id='.$deal_id);
+        $this->api->setMethod('GET');
+        $this->send();
+        $response = json_decode($this->api->getResult(), true);
+        $this->logApi();
+        return $response;
+    }
     public function runFirstStep($vin,$plate){
         $bitmask = (TestRecords::BIT_AUTO | TestRecords::BIT_RENEWAL_DUE);
         $reservation = $this->getTestRecord($bitmask);

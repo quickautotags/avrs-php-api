@@ -34,6 +34,12 @@ class Controller extends BaseController
  		$return = $example->run();
  		die(json_encode($return));
  	}
+ 	public function checkError(){
+ 		$return = '';
+ 		$example = new renewRegistration();
+ 		$return = $example->checkError($_REQUEST['dealid']);
+ 		die(json_encode($return));
+ 	}
  	public function exampleRenewRegistrationFirst(){
  		$return = '';
  		$example = new renewRegistration();
