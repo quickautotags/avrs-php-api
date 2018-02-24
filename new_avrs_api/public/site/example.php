@@ -125,14 +125,15 @@
 							success:function(data){
 								//Example Return:
 								//{"errorcode":"CADMV\/D365","errortext":" - SMOG CERT REQUIRED"}
-								var badCodes = ["CADMV/Q201","CADMV/D365","CADMV/Q046"];
+								var badCodes = ["CADMV/Q201","CADMV/D365","CADMV/Q046","CADMV/Q035"];
 								//0 - Q201 - REG SUSP - CALL 1-800-777-0133. REFER CUST TO DMV TO POST FEES.
 								//1 - D365 - SMOG CERT REQUIRED FROM STAR STATION
 								//2 - Q046 - CLEARING INQUIRY REQUIRED (CLEAR RDF?)
 								var userMessages = [
 									"Your registration is currently suspended due to insurance-related issues. QuickAutoTags will contact you at "+$("#email").val()+" with instructions to renew your registration.",
 									"Your registration renewal requires a Smog certification from the provider listed below. QuickAutoTags will follow up with you at "+$("#email").val()+" to get any documentation needed.",
-									"You have already renewed or started a renewal for this registration (either at the DMV or elsewhere), and will have to complete it there. QuickAutoTags cannot process another renewal for your Plate+VIN."
+									"You have already renewed or started a renewal for this registration (either at the DMV or elsewhere), and will have to complete it there. QuickAutoTags cannot process another renewal for your Plate+VIN.",
+									"Invalid Plate or VIN. Please enter your License Plate and last 3 digits of your VIN correctly and double-check to make sure you don't have any typos."
 								];
 								var knownError = false;
 								for(var jj=0;jj<badCodes.length;jj++){
