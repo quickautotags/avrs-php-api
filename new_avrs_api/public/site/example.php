@@ -93,7 +93,7 @@
 		function step1(){
 			var data = new Object(); //!(" ".trim()) is true
 			var rr=["vin","plate","email"];
-			for(var ii=0;ii<rr.length;ii++){if(!$("#"+rr[ii]).val().trim()){alert("VIN, Plate, and Email are all required!");}}
+			for(var ii=0;ii<rr.length;ii++){if(!$("#"+rr[ii]).val().trim()){alert("VIN, Plate, and Email are all required!"); return;}}
 			data.vin = $("#vin").val(); data.plate=$("#plate").val();
 			$.ajax("../index.php/exampleRenewRegistrationFirst?vin="+data.vin+"&plate="+data.plate,{
 				method:"GET",
