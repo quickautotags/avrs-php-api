@@ -73,7 +73,7 @@ class renewRegistration extends AbstractExample {
         $this->send();
         $response = json_decode($this->api->getResult(), true);
         $this->logApi();
-        return array("errorcode"=>$response['deals'][0]['error-code'],"errortext"=>$response['deals'][0]['error-text']);
+        return array("errorcode"=>$response['deals'][0]['error-code'],"errortext"=>$response['deals'][0]['error-text'],"wholeResponse"=>$response);
     }
     public function runFirstStep($vin,$plate){
         $bitmask = (TestRecords::BIT_AUTO | TestRecords::BIT_RENEWAL_DUE);
@@ -117,6 +117,7 @@ class renewRegistration extends AbstractExample {
         $json = $this->api->getResult();
         $response = json_decode($json, true);
         $this->logApi();
+        if(!isset($response['deal-transactions'][0])){return array("deal_id"=>$deal_id,"error"=>true);}
         $dt = $response['deal-transactions'][0];
         $total = $dt['fees']['total'];
         $deal_id = $dt['deal-id'];

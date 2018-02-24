@@ -28,7 +28,8 @@
 				//make sure all Fees look good, status=FR, has a deal-id and no errors
 				//show BT form with amount
 				alert(data.paidProperly);//hopefully true/1
-				alert("DMV processed your order successfully! Thank you for using QAT!");
+				//send them email here? or when processing payment, or both
+				alert("DMV processed your order successfully! Thank you for using QuickAutoTags!");
 			}
 		});
 	}
@@ -64,6 +65,7 @@
 <body>
 	<div style="width:200px">
 		<div class="step1">
+			<p class="a">Email:<br/><input type="text" id="email" /></p>
 			<p class="a">Plate:<br/><input type="text" id="plate" /></p>
 			<p class="a">VIN (last 3 digits):<br/><input type="text" id="vin" /></p>
 			<input type="button" value="Submit" onclick="step1()" style="width:200px;height:40px;border-radius:8px;background:#f69222;">
@@ -89,7 +91,9 @@
 		<script src="https://js.braintreegateway.com/js/braintree-2.20.0.min.js"></script>
 		<script>
 		function step1(){
-			var data = new Object();
+			var data = new Object(); //!(" ".trim()) is true
+			var rr=["vin","plate","email"];
+			for(var ii=0;ii<rr.length;ii++){if(!$("#"+rr[ii]).val().trim()){alert("VIN, Plate, and Email are all required!");}}
 			data.vin = $("#vin").val(); data.plate=$("#plate").val();
 			$.ajax("../index.php/exampleRenewRegistrationFirst?vin="+data.vin+"&plate="+data.plate,{
 				method:"GET",
@@ -110,15 +114,45 @@
 				dataType:"json",
 				success:function(data){
 					console.log(data);
-					alert(data.deal_id); alert(data.chargeUser); alert(data.deal_status);
+					//alert(data.deal_id); alert(data.chargeUser); alert(data.deal_status);
 					//make sure all Fees look good, status=FR, has a deal-id and no errors
-					var badCodes = ["E"];
-					for(var jj=0;jj<badCodes.length;jj++){
-						if(data.deal_status==badCodes[jj]){
-							//DO NOT SHOW STEP 2, return, and alert user of whats going on if code is 'bad'
-							alert("You may have a suspended registration or invalid insurance. You will have to go to the DMV to resolve this."); return;
-						}
-					}
+					if(data.error==true || data.deal_status=="E"){
+						//DO NOT SHOW STEP 2, return, and alert user of whats going on if code is 'bad'
+						//extra /deals call to get error information + handle specific error properly
+						alert("E case");
+						$.ajax("../index.php/checkError?dealid="+data.deal_id,{
+							method:"GET", dataType:"json",
+							success:function(data){
+								//Example Return:
+								//{"errorcode":"CADMV\/D365","errortext":" - SMOG CERT REQUIRED"}
+								var badCodes = ["CADMV/Q201","CADMV/D365","CADMV/Q046"];
+								//0 - Q201 - REG SUSP - CALL 1-800-777-0133. REFER CUST TO DMV TO POST FEES.
+								//1 - D365 - SMOG CERT REQUIRED FROM STAR STATION
+								//2 - Q046 - CLEARING INQUIRY REQUIRED (CLEAR RDF?)
+								var userMessages = [
+									"Your registration is currently suspended due to insurance-related issues. QuickAutoTags will contact you at "+$("#email").val()+" with instructions to renew your registration.",
+									"Your registration renewal requires a Smog certification from the provider listed below. QuickAutoTags will follow up with you at "+$("#email").val()+" to get any documentation needed.",
+									"You have already renewed or started a renewal for this registration (either at the DMV or elsewhere), and will have to complete it there. QuickAutoTags cannot process another renewal for your Plate+VIN."
+								];
+								var knownError = false;
+								for(var jj=0;jj<badCodes.length;jj++){
+									if(data.errorcode==badCodes[jj]){
+										knownError = true; var base_msg = userMessages[jj];
+										alert(base_msg+"\nDMV Error Code: "+data.errorcode+data.errortext);
+									}
+								}
+								if(!knownError){
+									var dat_msg = (data.errorcode.indexOf("CADMV")!==-1)? "Your transaction cannot be processed at the DMV at this time. This may be an address issue, an insurance issue, or a recall issue. QuickAutoTags will contact you to let you know any actions you may have to take (at the DMV or otherwise)." : "AVRS Error" ;
+									alert(dat_msg+"\nDMV Error Code: "+data.errorcode+data.errortext);
+								}
+								//email QAT/Uni with /checkError and /deals result for given deal-id so they can check what the error is and handle appropriately + get back to customer.
+								//$("#email").val() used here
+								alert("end of /checkError async call"); alert($("input[name='amount']").val());
+							}
+						});
+						return;
+					} else {alert("Not E case");}
+					
 					//show BT form with amount
 					$("input[name='amount']").val(data.chargeUser);//use 1 when testing
 					//initBT();if have to init after amount
