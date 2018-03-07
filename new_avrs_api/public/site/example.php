@@ -65,6 +65,7 @@
 <body>
 	<div style="width:200px">
 		<div class="step1">
+			<p class="a">Name:<br/><input type="text" id="name" /></p>
 			<p class="a">Email:<br/><input type="text" id="email" /></p>
 			<p class="a">Plate:<br/><input type="text" id="plate" /></p>
 			<p class="a">VIN (last 3 digits):<br/><input type="text" id="vin" /></p>
@@ -74,6 +75,7 @@
 		  <table>
 		  	<tr><td colspan=2><b>Summary of Fees</b></td></tr>
 		  	<tr><td>DMV Fees:</td><td id="json_total"></td></tr>
+		  	<!--TODO: move AVRS fees from "DMV Fees" to "Service Fee", handle insurance N case-->
 		  	<tr><td>Service Fee:</td><td id="json_unifees"></td></tr>
 		  	<tr><td>Total:</td><td id="json_chargeUser"></td></tr>
 		  	<tr><td colspan=2><b>Enter Payment Info</b></td></tr>
@@ -92,8 +94,8 @@
 		<script>
 		function step1(){
 			var data = new Object(); //!(" ".trim()) is true
-			var rr=["vin","plate","email"];
-			for(var ii=0;ii<rr.length;ii++){if(!$("#"+rr[ii]).val().trim()){alert("VIN, Plate, and Email are all required!"); return;}}
+			var rr=["vin","plate","email","name"];
+			for(var ii=0;ii<rr.length;ii++){if(!$("#"+rr[ii]).val().trim()){alert("VIN, Plate, Name, and Email are all required!"); return;}}
 			data.vin = $("#vin").val(); data.plate=$("#plate").val();
 			$.ajax("../index.php/exampleRenewRegistrationFirst?vin="+data.vin+"&plate="+data.plate,{
 				method:"GET",
@@ -157,8 +159,8 @@
 					//show BT form with amount
 					$("input[name='amount']").val(data.chargeUser);//use 1 when testing
 					//initBT();if have to init after amount
-					$("#json_total").html(data.total); $("#json_unifees").html(data.unifees);
-					$("#json_chargeUser").html(data.chargeUser);
+					$("#json_total").html("$"+(data.total-9.5).toFixed(2)); $("#json_unifees").html("$"+(data.unifees+9.5).toFixed(2);
+					$("#json_chargeUser").html("$"+(data.chargeUser).toFixed(2));
 					$(".step1").hide();$(".step2").show();
 				}
 			});
