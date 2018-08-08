@@ -306,55 +306,52 @@ function debug($msg, $die=false) {
 						$.ajax("../index.php/checkError?dealid="+data.deal_id,{
 							method:"GET", dataType:"json",
 							success:function(data){
-
 								//Example Return:
 								//{"errorcode":"CADMV\/D365","errortext":" - SMOG CERT REQUIRED"}
-								var badCodes = ["CADMV/Q201","CADMV/D365","CADMV/Q046","CADMV/Q035"];
+								var badCodes = ["CADMV/Q201","CADMV/D108","CADMV/D365","CADMV/Q046","CADMV/Q035"];
 								//0 - Q201 - REG SUSP - CALL 1-800-777-0133. REFER CUST TO DMV TO POST FEES.
 								//1 - D365 - SMOG CERT REQUIRED FROM STAR STATION
 								//2 - Q046 - CLEARING INQUIRY REQUIRED (CLEAR RDF?)
 								var userMessages = [
 									"Your registration is currently suspended due to insurance-related issues. QuickAutoTags will contact you at "+$("#email").val()+" with instructions to renew your registration.",
 									"Your registration renewal requires a Smog certification from the provider listed below. QuickAutoTags will follow up with you at "+$("#email").val()+" to get any documentation needed.",
+									"Your registration renewal requires a Smog certification from the provider listed below. QuickAutoTags will follow up with you at "+$("#email").val()+" to get any documentation needed.",
 									"You have already renewed or started a renewal for this registration (either at the DMV or elsewhere), and will have to complete it there. QuickAutoTags cannot process another renewal for your Plate+VIN.",
 									"Invalid Plate or VIN. Please enter your License Plate and last 3 digits of your VIN correctly and double-check to make sure you don't have any typos."
 								];
-								var knownError = false;
+								//for messages we don't have codes for:
+								var badMessages = ["FILE CODE REQUIRED FOR THIS CONFIGURATION","REG SUSP","REFER CUST TO DMV TO POST FEES","3P-VIN UNEQUAL IN VR RECORD LIC","NO RECORD FOUND","CLEARING INQUIRY REQUIRED","TTC NOT VALID-SALV RETENTION ON FILE","BPA SYSTEM IS DOWN","ELP RECORD ON FILE","NAME CODE-VS-DATA FIELDS"];
+								var cleanMessages = ["Please double check your plate number. QuickAutoTags will call you.","Your registration is currently suspended due to insurance-related issues. QuickAutoTags will contact you at "+$("#email").val()+" with instructions to renew your registration.","Your registration is currently suspended due to insurance-related issues. QuickAutoTags will contact you at "+$("#email").val()+" with instructions to renew your registration.","Your Plate and VIN do not match. Please double check both values.","Your plate number is not valid or is not in the California DMV Database. Please double check this value.","You have already renewed or started a renewal for this registration (either at the DMV or elsewhere), and will have to complete it there. QuickAutoTags cannot process another renewal for your Plate+VIN.","Your vehicle has been reported salvage to the DMV - you must re-register your vehicle as a salvage vehicle. QuickAutoTags will contact you for further details and instructions","System is only available between 7AM and 10PM PT. Please try again during those hours.","The entered plate number is invalid. Please double check it.","Must process a Change Of Address. QuickAutoTags will contact you with further instructions and steps."];
+
+								var knownError = false; var knownCode = false; var isSmog = false;
 								for(var jj=0;jj<badCodes.length;jj++){
 									if(data.errorcode==badCodes[jj]){
-										knownError = true; 
-										var base_msg = userMessages[jj];
-										doToggle();
-
-										if(data.errortext == "BPA SYSTEM IS DOWN") {
-											base_msg = "Sorry, the DMV system is currently down.  Please try again later.";
-										}
-										$(".errorMessage").html(base_msg);
-										console.log(base_msg);
-										console.log("DMV Error Code: " + data.errorcode);
-										console.log("DMV Error Text: " + data.errortext);
-										emailErrorMessage(data.errortext);
+										knownError = true; var base_msg = userMessages[jj];
+										alert(base_msg+"\nDMV Error Code: "+data.errorcode+data.errortext);
 									}
 								}
+								if(data.errorcode=="CADMV/D365" || data.errorcode=="CADMV/D108"){
+									isSmog=true;
+								}
 								if(!knownError){
-									var dat_msg = (data.errorcode.indexOf("CADMV")!==-1)? "Your transaction cannot be processed at the DMV at this time. This may be an address issue, an insurance issue, or a recall issue. QuickAutoTags will contact you to let you know any actions you may have to take (at the DMV or otherwise)." : "AVRS Error" ;
-									doToggle();
-									if(data.errortext == "BPA SYSTEM IS DOWN") {
-										dat_msg = "Sorry, the DMV system is currently down.  Please try again later.";
+									for(var ll=0;ll<badMessages.length;ll++){
+										if(data.errortext.indexOf(badMessages[ll])!=-1){ //errortext contains badMessage
+											knownCode = true; var base_msg = cleanMessages[ll];
+											alert(base_msg+"\nDMV Error Code: "+data.errorcode+data.errortext);
+										}
 									}
-									$(".errorMessage").html(dat_msg);
-									console.log(base_msg);
-									console.log("DMV Error Code: " + data.errorcode);
-									console.log("DMV Error Text: " + data.errortext);
-									emailErrorMessage(data.errortext);
+								}
+								if(!knownError && !knownCode){
+									var dat_msg = (data.errorcode.indexOf("CADMV")!==-1)? "Your transaction cannot be processed at the DMV at this time. This may be an address issue, an insurance issue, or a recall issue. QuickAutoTags will contact you to let you know any actions you may have to take (at the DMV or otherwise)." : "AVRS Error" ;
+									alert(dat_msg+"\nDMV Error Code: "+data.errorcode+data.errortext);
 								}
 								//email QAT/Uni with /checkError and /deals result for given deal-id so they can check what the error is and handle appropriately + get back to customer.
 								//$("#email").val() used here
-								console.log("end of /checkError async call"); 
-								console.log($("input[name='amount']").val());
+								alert("end of /checkError async call"); alert($("input[name='amount']").val());
 							}
 						});
-						return;
+						if(!isSmog){return;}
+						console.log("Smog (or other 'can still pay despite error') case")
 					} else {
 						console.log("Not E case");
 					}

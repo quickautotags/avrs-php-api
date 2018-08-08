@@ -19,11 +19,15 @@ abstract class AbstractExample {
 
     public function __construct() {
         $settings = json_decode(file_get_contents(__DIR__ . '/settings.json'), true);
+ 
         if (!is_array($settings)) {
+            debug('Unable to load and parse settings.json', 1);
             throw new Exception('Unable to load and parse settings.json');
+
         }
         $environment = $settings[ $settings['active'] ];
         if (!is_array($environment)) {
+            debug('Unable to load and parse the active environment', 1);
             throw new Exception('Unable to load and parse the active environment');
         }
         $this->settings = new AvrsApiSO();

@@ -21,9 +21,9 @@
   "general-release": {
     "host": "https://secure.avrs.com",
     "port": 443,
-    "key": "fcc040cf00fee467c8666a21b3adceb6",
-    "secret": "11fc0c94b1b4eaee62283e1275807a14",
-    "passphrase": "8bea8bd91d0c72729496d20dcd048189",
+    "key": "9ffeaca83978654be8905ef45fda066b",
+    "secret": "2f63041dab22ba56607b48f8cc2df2cb",
+    "passphrase": "qu!ckaut0",
     "verifySSL": true,
     "debug": false
   }
