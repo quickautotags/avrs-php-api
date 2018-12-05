@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			input[type=text], .a select {
+			    line-height: 35px;
+			    font-size: 1rem;
+			    margin-bottom: 0 !important;
+			    padding: 5px 14px;
+			    box-shadow: none;
+			    font-family: sans-serif;
+			    background: #fff;
+			    color: #333;
+			    border-radius: 0;
+			    min-height: 35px;
+			    width: 265px !important;
+			}
+			.a {
+				width: 100%;
+			    float: left;
+			    margin-bottom: 5px;
+			    margin-top: 5px;
+			    font-family:sans-serif;
+			}
+			#theForm{
+				border-radius: 5px;
+			    background: #eee;
+			    padding-top: 10px;
+			    padding-bottom: 10px;
+			    background-image: url('oj_arrow2.png');
+			    background-repeat: no-repeat;
+			    background-position: top center;
+			    background-size: 48px 16px;
+			}
+			#address{width:24px;height:24px;}
+			p#coa{line-height:24px;font-size:18px;}
+			#emdail{margin-top:5px;}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper" style="width:100%;margin:0 auto;background:rgb(255,138,5);color:#fff;">
+			<div id="logo" style="width:300px;height:75px;margin:0 auto;"></div>
+			<h1 style="font-family:sans-serif;font-weight:normal;text-align:center;margin-bottom:2px;">Renew Your Auto Registration Today!</h1>
+			<p style="margin-top:2px;font-weight:bold;font-size:14px;text-align:center;">Licensed by the California DMV</p>
+			<div id="form">
+				<div id="theForm" style="width:100%;text-align:center;">
+					<div class="successMessage"></div>
+					<div class="errorMessage"></div>
+					<div class="step1">
+						<p class="a"><input type="text" id="emdail" placeholder="Email Address"></p>
+						<p class="a"><input type="text" id="email" placeholder="License Plate"></p>
+						<p class="a"><input type="text" id="phone" placeholder="Last 3 Digits of VIN"></p>
+						<p class="a"><input type="text" id="plate" placeholder="ZIP Code"></p>
+						<p class="a">
+							<select>
+								<option value="">Registration Renewal</option>
+								<option>Replacement Sticker</option>
+								<option>Replacement Card</option>
+							</select>
+						</p>
+						<p class="a" id="coa" style="color:#000;"><input id="address" type="checkbox"><span style="position:relative;bottom:6px;">Change of Address</span></p>
+						<input type="button" value="NEXT" style="width:200px;height:58px;color:#fff;font-size:20px;border-radius:8px;background:rgb(255,138,5);">
+					</div>
+				</div>
+				<!--4-field w/ CoA checkbox and dropdown-->
+			</div>
+		</div>
+	</body>
+</html>
+<!--
+
+Hassle-free online registration and/or renew your california auto registration today!
+checkboxes Car owners / Car dealers / Vehicle Fleets AND yesORno horizon photo
+#ff8a05#f90darkorangehsl(31,100,50)rgb(255,138,5)
+
+-->

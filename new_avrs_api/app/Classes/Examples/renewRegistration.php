@@ -101,6 +101,49 @@ class renewRegistration extends AbstractExample {
         $this->logApi();
         return array("dealid"=>$response['deals'][0]['id'],"wholeResponse"=>$response);
     }
+    public function clearRDFForDeal($vin,$plate){
+        $this->api->setURL('/api/v1.5/deals/');
+        $this->api->setMethod('POST');
+        //Required fields: deals, gateway-type, transaction-type
+        $this->api->addPayload('deals', [[
+          'attributes' => 1, //maybe '0' required? test
+          'vehicles'=>[[
+           'vin'       => $vin   ,
+           'plate'     => $plate ,
+           'insurance' => 'Y'    , // for testing environment only, certify that the vehicle is insured
+        ]], 'transaction-type'=>'6','gateway-type'=>'CA' ]]);
+        $this->send();
+        $response = json_decode($this->api->getResult(), true);
+        $this->logApi();
+        return array("dealid"=>$response['deals'][0]['id'],"wholeResponse"=>$response);
+    }
+    public function runFirstStepWithAttribute($vin,$plate,$attributes_no){
+        $bitmask = (TestRecords::BIT_AUTO | TestRecords::BIT_RENEWAL_DUE);
+        $reservation = $this->getTestRecord($bitmask);
+        $this->api->setURL('/api/v1.5/deals/');
+        $this->api->setMethod('POST');
+        //Required fields: deals, gateway-type, transaction-type
+        $this->api->addPayload('deals', [['vehicles'=>[[
+           'vin'       => $vin   ,
+           'plate'     => $plate ,
+           'insurance' => 'Y'    , // for testing environment only, certify that the vehicle is insured
+           'attributes' => $attributes_no , // maybe '(A/a)ttributes', maybe quotes required around no
+        ]], 'transaction-type'=>'6','gateway-type'=>'CA' ]]);
+        /*
+        optional change of address
+        'mail-address'=>[[
+            'city'=>'Santa Cruz',
+            'state'=>'CA',
+            'street0'=>'1156 High St.',
+            'street1'=>'Apt #1',
+            'zip'=>'95064'
+        ]], 
+        */
+        $this->send();
+        $response = json_decode($this->api->getResult(), true);
+        $this->logApi();
+        return array("dealid"=>$response['deals'][0]['id'],"wholeResponse"=>$response);
+    }
     public function runTransactionStep($deal_id, $desired_status){
         $this->resetApi();
         $this->api->setURL('/api/v1.5/deals/transactions/');
@@ -117,7 +160,7 @@ class renewRegistration extends AbstractExample {
         $json = $this->api->getResult();
         $response = json_decode($json, true);
         $this->logApi();
-        if(!isset($response['deal-transactions'][0])){return array("deal_id"=>$deal_id,"error"=>true);}
+        if(!isset($response['deal-transactions'][0])){return array("deal_id"=>$deal_id,"error"=>true,"response"=>$response);}
         $dt = $response['deal-transactions'][0];
         $total = $dt['fees']['total'];
         $deal_id = $dt['deal-id'];
@@ -125,6 +168,7 @@ class renewRegistration extends AbstractExample {
         $bt_fee_addon = ($total+19.5)*.03;//+0.3 (30 cents base), just add that at the end
         $charge_user = $total+19.5+$bt_fee_addon+0.3;
         $fees = $bt_fee_addon+0.3+19.5;
+        $btfees = $bt_fee_addon+0.3;
         /*IF DOING FR TO CHECK FEES, ASK AVRS WHERE TO GET FEES FROM
             POTENTIAL CANDIDATES: (same object level as 'vehicles' within deals, aka deals.xxx)
             fee-dmv-amount
@@ -144,7 +188,7 @@ class renewRegistration extends AbstractExample {
                 if($dis['type']=='STATE'){$stateFees+=$dis['total'];}
                 else{$processingFees+=$dis['total'];}
             }     
-            return array("total"=>$total,"unifees"=>$fees,"chargeUser"=>$charge_user,"deal_id"=>$deal_id,"deal_status"=>$deal_status,"stateFees"=>$stateFees,"processingFees"=>$processingFees,"origFeeObj"=>$dt['fees'],"transaction"=>$dt);   
+            return array("total"=>$total,"btfees"=>$btfees,"unionly"=>19.5,"unifees"=>$fees,"chargeUser"=>$charge_user,"deal_id"=>$deal_id,"deal_status"=>$deal_status,"stateFees"=>$stateFees,"processingFees"=>$processingFees,"origFeeObj"=>$dt['fees'],"transaction"=>$dt);   
         }
 
         /*IF DOING C TO POST FEES AND COMPLETE THE TRANSACTION, ASK AVRS HOW TO GENERATE OFFICIAL RECEIPTS

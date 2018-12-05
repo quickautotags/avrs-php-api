@@ -20,11 +20,14 @@ Route::get('/viewTestRecords','Controller@viewTestRecords');
 Route::get('/exampleRenewRegistration','Controller@exampleRenewRegistrationFull');
 //MAIN API CALLS
 Route::get('/checkError','Controller@checkError');
+Route::get('/clearRDF','Controller@clearRDF');
 Route::get('/exampleRenewRegistrationFirst','Controller@exampleRenewRegistrationFirst');
 Route::get('/exampleRenewRegistrationRest','Controller@exampleRenewRegistrationRest');
 //Route::post('/campaignPerformanceReport', 'Controller@campaignPerformanceReport');
 
 Route::get('/getTokenQAT', array('uses' => 'Controller@fetchClientTokenQAT'));
 Route::post('/payQAT', array('uses'=>'Controller@payQAT'));
+
+Route::post('/sendAddressEmail', array('uses'=>'Controller@sendAddressEmail'));
 
 //I will only be doing “renewals/replacement credentials” – and my fee will be $20 - Uni

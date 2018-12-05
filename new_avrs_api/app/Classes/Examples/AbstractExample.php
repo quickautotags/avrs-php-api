@@ -17,6 +17,17 @@ abstract class AbstractExample {
     const RETRY_ATTEMPTS = 3;
     const RETRY_BASE = 3;
 
+    /* CURRENT KEY
+    create-time: 2018-10-16 10:00:11
+    environment: P
+    expiration-time: 2018-12-15 10:00:11
+    id: 1597
+    key: 0663c60893aafee9d6e72fa9addd0c2f
+    lid: 1077
+    passphrase: 4ee1b4581ad7d3c4223dd0f4b622d5da
+    secret: 051161e58e5861c775bc5265c4e3da3e
+    uid: 837
+    */
     public function __construct() {
         $settings = json_decode(file_get_contents(__DIR__ . '/settings.json'), true);
         if (!is_array($settings)) {
