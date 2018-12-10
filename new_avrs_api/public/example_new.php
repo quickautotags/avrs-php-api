@@ -2,6 +2,7 @@
 <html>
 <head><!--260x355 current min size-->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>California DMV Services</title>
 	<style>
 		input[type=text], .a select {
 		    line-height: 35px;
@@ -149,6 +150,22 @@
 		<?php
 	}
 	?>
+	<!--begin SEO-related js-->
+		<!-- Global site tag (gtag.js) - Google Ads: 944326063 -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=AW-944326063"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		  gtag('config', 'AW-944326063');
+		</script>
+		<!--snipped add to <head>-->
+		<script>
+		  gtag('config', 'AW-944326063/g1K9CJyG8pABEK-LpcID', {
+		    'phone_conversion_number': '888-723-0842'
+		  });
+		</script>
+	<!--end SEO-related js-->
 </head>
 <body>
 	<div id="overlay" style="display:none;position:absolute;left:0;top:0;z-index: 1001;width:100%;height: 150%;background:rgba(0,0,0,.7);"><img src="load.gif" style="width:20%;left:40%;top:25%;position:absolute;"></div>
@@ -161,10 +178,10 @@
 				<div class="successMessage"></div>
 				<div class="errorMessage"></div>
 				<div class="step1">
-					<p class="a"><input type="text" id="email" placeholder="Email Address"></p>
 					<p class="a"><input type="text" id="plate" placeholder="License Plate"></p>
 					<p class="a"><input type="text" id="vin" placeholder="Last 3 Digits of VIN"></p>
 					<p class="a"><input type="text" id="zip" placeholder="ZIP Code"></p>
+					<p class="a"><input type="text" id="email" placeholder="Email Address"></p>
 					<p class="a">
 						<select id="orderType">
 							<option value="1">Registration Renewal</option>
