@@ -49,6 +49,32 @@
 				return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 			}
 		</script>
+		<!--SEO-->
+		<!-- Global site tag (gtag.js) - Google Ads: 944326063 -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=AW-944326063"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+		  gtag('config', 'AW-944326063');
+		</script>
+		<!-- Event snippet for Step One Sign up conversion page
+		In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+		<script>
+		function gtag_report_conversion(url) {
+		  var callback = function () {
+		    if (typeof(url) != 'undefined') {
+		      window.location = url;
+		    }
+		  };
+		  gtag('event', 'conversion', {
+		      'send_to': 'AW-944326063/VZB2CN6EhJEBEK-LpcID',
+		      'event_callback': callback
+		  });
+		  return false;
+		}
+		</script>
+		<!--end SEO-->
 	</head>
 	<body>
 		<div id="wrapper" style="width:100%;margin:0 auto;background:rgb(255,138,5);color:#fff;">
@@ -114,6 +140,7 @@
 					}
 				});
 			}
+			gtag_report_conversion();
 		</script>
 	</body>
 </html>

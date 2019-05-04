@@ -39,7 +39,22 @@ class Controller extends BaseController
  		$return = '';
  		$example = new renewRegistration();
  		$return = $example->checkError($_REQUEST['dealid']);
+ 		$sid = $_REQUEST['sid']; $email = "";
+ 		try{
+ 		$email = DB::select("select email from user_submission where id=".$sid)[0]->email;
+ 		}catch(Exception $e){}
  		//status_json includes that error was detected (data.error==true || data.deal_status=="E") and checked for, and $return to show what error is
+ 		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		    CURLOPT_RETURNTRANSFER => 1,
+		    CURLOPT_URL => 'http://54.149.200.91/uni/erroremail.php',
+		    CURLOPT_USERAGENT => 'quickautotags_application',
+		    CURLOPT_POST => 1,
+		    CURLOPT_POSTFIELDS => array("error"=>json_encode($return),"email"=>urlencode($email))
+		));
+		$resp = curl_exec($curl);
+		// Close request to clear up some resources
+		curl_close($curl);
  		//check if smog on server side so we can set taht clear rdf should be happening next, and user can pay
  		$sid = $_REQUEST['sid'];
  		$json = DB::select("select status_json from user_submission where id=".$sid);

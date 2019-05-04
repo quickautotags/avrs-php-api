@@ -26,23 +26,23 @@
 		}
 		#theForm{
 			border-radius: 5px;
-		    background: #afcee0;
+		    background: #eee;
 		    padding-top: 10px;
 		    padding-bottom: 10px;
-		    background-image: url('blu_arrow.png');
+		    background-image: url('oj_arrow2.png');
 		    background-repeat: no-repeat;
 		    background-position: top center;
 		    background-size: 48px 16px;
 		}
-		.theFormStep2{background:#afcee0;/*rgb(252, 150, 35)!important;*/}
+		.theFormStep2{background:rgb(252, 150, 35)!important;}
 		#address{width:24px;height:24px;}
 		p#coa{line-height:24px;font-size:18px;}
 		#emdail{margin-top:5px;}
 		#belowTable{padding:0;margin:0;}
 		#receiptTable{margin:0 auto;}
-		#receiptTable tr td.subhead{padding:5px;color:#1d3d74!important;text-align:center!important;}
-		#receiptTable tr td:first-child{padding:5px;text-align:right;color:#1d3d74;}
-		#receiptTable tr td:last-child{padding:5px;text-align:left;color:#1d3d74;}
+		#receiptTable tr td.subhead{padding:5px;color:#fff!important;text-align:center!important;}
+		#receiptTable tr td:first-child{padding:5px;text-align:right;color:#fff;}
+		#receiptTable tr td:last-child{padding:5px;text-align:left;color:#fff;}
 		input.error{background:rgba(255,0,0,0.3);border:1px solid red;}
 	</style>
 	<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
@@ -199,9 +199,8 @@
 </head>
 <body>
 	<div id="overlay" style="display:none;position:absolute;left:0;top:0;z-index: 1001;width:100%;height: 150%;background:rgba(0,0,0,.7);"><img src="load.gif" style="width:20%;left:40%;top:25%;position:absolute;"></div>
-	<div id="wrapper" style="width:100%;margin:0 auto;background:#1d3d74;color:#fff;">
-		<!--rgb(255,138,5)-->
-		<div id="logo" style="width:300px;height:100px;margin:0 auto;background:url('https://www.quickautotags.com/hs-fs/hubfs/images/QAT_Logo.png?width=320&name=QAT_Logo.png');background-size:300px 95px;background-position-y:5px;background-repeat:no-repeat;"></div>
+	<div id="wrapper" style="width:100%;margin:0 auto;background:rgb(255,138,5);color:#fff;">
+		<div id="logo" style="width:300px;height:100px;margin:0 auto;background:url('qatlogo.png');background-size:300px 95px;background-position-y:5px;background-repeat:no-repeat;"></div>
 		<h1 style="font-family:sans-serif;font-size:20px;font-weight:normal;text-align:center;margin-bottom:10px;margin-top:10px;">Renew Your Auto Registration Today!</h1>
 		<!--p style="margin-top:2px;font-weight:bold;font-size:14px;text-align:center;">Licensed by the California DMV</p-->
 		<div id="form">
