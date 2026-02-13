@@ -14,7 +14,7 @@ use App\Classes\Src\SemrushApi;
  *   Defaults: domain=quickautotags.com, database=us, limit=100
  */
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../Src/SemrushApi.php';
 
 $domain   = isset($argv[1]) ? $argv[1] : 'quickautotags.com';
 $database = isset($argv[2]) ? $argv[2] : 'us';
